@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>gbk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+
+:root{--bg:#F6F7F9;--panel:#fff;--soft:#EEF0F4;--ink:#161A22;--mute:#5E6877;--line:#E1E5EC;--acc:#B8801F;--accink:#fff;--accsoft:rgba(184,128,31,.13);--acc2:#1F8A7D;--neg:#C0504D;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-race="a"]{--acc:#6D5BD0;--accsoft:rgba(109,91,208,.13)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0C1016;--panel:#131820;--soft:#1A212B;--ink:#E8ECF2;--mute:#8E9AAC;--line:#222B37;--acc:#E2B04A;--accink:#1B1303;--accsoft:rgba(226,176,74,.14);--acc2:#4FB6A8;--neg:#E07A74}:root:not([data-theme="light"])[data-race="a"]{--acc:#9A8CFF;--accink:#120D33;--accsoft:rgba(154,140,255,.16)}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0C1016;--panel:#131820;--soft:#1A212B;--ink:#E8ECF2;--mute:#8E9AAC;--line:#222B37;--acc:#E2B04A;--accink:#1B1303;--accsoft:rgba(226,176,74,.14);--acc2:#4FB6A8;--neg:#E07A74}:root[data-theme="dark"][data-race="a"]{--acc:#9A8CFF;--accink:#120D33;--accsoft:rgba(154,140,255,.16)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 "Figtree",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+h2{font-size:28px;line-height:1.15;font-weight:800;letter-spacing:-.025em;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 20px;max-width:64ch}
+.tag{font-size:12px;font-weight:600;color:var(--mute);background:var(--soft);border-radius:99px;padding:3px 10px;margin-left:10px;vertical-align:middle;white-space:nowrap}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;background:var(--acc);color:var(--accink);border:0;border-radius:10px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--soft);border:1px solid transparent;border-radius:10px;padding:8px 12px}
+input[type=checkbox]{accent-color:var(--acc);width:18px;height:18px;padding:0}
+textarea{width:100%;min-height:90px}
+label{color:var(--mute)}
+.tool strong,.ev strong{color:var(--ink)}
+.chip{background:var(--soft);border-radius:99px;padding:3px 12px;font-size:14px}
+.chip b{color:var(--ink)}.chip.ok{color:var(--acc2)}
+.next{font-size:clamp(34px,6vw,52px);font-weight:800;letter-spacing:-.03em;margin:0 0 16px;line-height:1.1}
+.next small{display:block;font-size:15px;font-weight:500;color:var(--mute);letter-spacing:0}
+.ev{display:grid;grid-template-columns:auto 1fr minmax(120px,220px);gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.ev:first-of-type{border-top:0}
+.grid2{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:16px}
+svg.map{width:100%;height:auto;border-radius:12px;background:var(--soft);display:block}
+svg .m{cursor:pointer;transition:opacity .15s}svg .done{opacity:.25}svg .dim{opacity:.12}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;color:var(--mute);font-size:14px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--acc2);margin-right:6px}
+.dot.cube{background:var(--acc);border-radius:2px;transform:rotate(45deg)}
+.pet{padding:14px 0;border-top:1px solid var(--line)}.pet:first-of-type{border-top:0}
+.pet small{color:var(--mute)}.pet .row{justify-content:space-between}
+.bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--acc2);width:0;border-radius:99px}.bar i.max{background:var(--acc)}
+.dps{display:grid;grid-template-columns:110px 1fr 70px 80px 46px;gap:10px;align-items:center;padding:8px 0;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.dps small{color:var(--mute)}.dps .bar{margin:0;height:12px}.dps .bar i{background:var(--acc)}
+.dps span:nth-child(n+3){text-align:right}.dps span:nth-child(3){font-weight:700}
+@media(max-width:560px){.dps{grid-template-columns:80px 1fr 60px 46px}.dps span:nth-child(4){display:none}}
+.boss{margin:0 0 14px}.boss .bar{height:12px}.boss .bar i{background:var(--neg)}
+.sk{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.pbar{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding-bottom:18px}
+.pbar>div:nth-child(2){flex:1;min-width:160px}
+.pstat{text-align:right}.pstat b{display:block;font-size:26px;letter-spacing:-.02em}.pstat small{color:var(--mute)}
+.eq{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.slot{background:var(--soft);border-radius:12px;padding:10px 12px;display:grid;gap:2px}
+.slot small{color:var(--mute)}.slot span{color:var(--acc);font-weight:700}
+.tool{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.tool:first-child{border-top:0}.tool small{color:var(--mute)}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;max-width:90vw;display:none;z-index:40}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.ev{grid-template-columns:auto 1fr}.ev input[type=text]{grid-column:1/-1}}
+
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:calc(100vh - env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:20px;padding:22px 14px;border-right:1px solid var(--line)}
+.brand{font-size:26px;font-weight:800;letter-spacing:-.04em;padding:0 12px}.brand b{color:var(--acc)}
+nav{display:flex;flex-direction:column;gap:2px}
+nav button{font:inherit;font-weight:500;text-align:left;color:var(--mute);background:none;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;white-space:nowrap}
+nav button:hover{background:var(--soft);color:var(--ink)}
+nav button[aria-selected="true"]{background:var(--accsoft);color:var(--acc);font-weight:700}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.me small{color:var(--mute)}
+.av{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accsoft);color:var(--acc);font-weight:800}
+.stage{padding:20px clamp(18px,4vw,48px) 64px;max-width:1080px}
+.top{display:flex;justify-content:flex-end;margin-bottom:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--mute);background:var(--soft);border-radius:99px;padding:5px 12px}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--mute)}.pill[data-on="1"] i{background:var(--acc2)}
+@media(max-width:820px){.shell{grid-template-columns:1fr}.side{position:sticky;height:auto;flex-direction:row;align-items:center;gap:8px;overflow-x:auto;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);background:var(--bg);z-index:5}.brand{padding:0 8px}nav{flex-direction:row}.me{display:none}}
+:root{--bg:#E9EDF1;--panel:#F8FAFC;--soft:#DDE3EA;--ink:#14202C;--mute:#55667A;--line:#B9C4D0;--acc:#8A6A1F;--accink:#fff;--accsoft:rgba(138,106,31,.14);--acc2:#2A7F95;--neg:#B5443F}:root[data-race="a"]{--bg:#EDE9F3;--panel:#FAF8FD;--soft:#E1DAEC;--ink:#231A33;--mute:#6A5C85;--line:#C4B9D6;--acc:#5B49B5;--accink:#fff;--accsoft:rgba(91,73,181,.14);--acc2:#B0457B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0D1620;--panel:#131F2C;--soft:#1A2938;--ink:#E6EEF6;--mute:#8FA3B8;--line:#2B3E52;--acc:#E4C27A;--accink:#1D1505;--accsoft:rgba(228,194,122,.14);--acc2:#6FC3D8;--neg:#E07A74}:root:not([data-theme="light"])[data-race="a"]{color-scheme:dark;--bg:#130F1D;--panel:#1B1529;--soft:#251D38;--ink:#EDE8F7;--mute:#A596C2;--line:#3B2F57;--acc:#B79CFF;--accink:#150D33;--accsoft:rgba(183,156,255,.16);--acc2:#D86FA0;--neg:#E07A74}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0D1620;--panel:#131F2C;--soft:#1A2938;--ink:#E6EEF6;--mute:#8FA3B8;--line:#2B3E52;--acc:#E4C27A;--accink:#1D1505;--accsoft:rgba(228,194,122,.14);--acc2:#6FC3D8;--neg:#E07A74}:root[data-theme="dark"][data-race="a"]{color-scheme:dark;--bg:#130F1D;--panel:#1B1529;--soft:#251D38;--ink:#EDE8F7;--mute:#A596C2;--line:#3B2F57;--acc:#B79CFF;--accink:#150D33;--accsoft:rgba(183,156,255,.16);--acc2:#D86FA0;--neg:#E07A74}
+
+/* v2: visual de interface de jogo */
+body{font:400 16px/1.5 "Barlow",system-ui,sans-serif}
+h2,.brand,.next,.hero h1,h3{font-family:"Barlow Condensed","Barlow",sans-serif}
+h2{font-size:36px;font-weight:700;letter-spacing:0;line-height:1.05}
+.brand{font-weight:700;letter-spacing:.01em;font-size:30px}
+.next{font-weight:700;letter-spacing:0}
+.hero h1{font-weight:700;letter-spacing:-.01em;line-height:1;font-size:clamp(44px,8vw,84px)}
+.panel{border-radius:3px;position:relative}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;pointer-events:none}
+.panel::before{top:-1px;left:-1px;border-top:2px solid var(--acc);border-left:2px solid var(--acc)}
+.panel::after{bottom:-1px;right:-1px;border-bottom:2px solid var(--acc);border-right:2px solid var(--acc)}
+.btn,input,select,textarea,.chip,.pill,.me,.av,.seg,.seg button{border-radius:2px}
+.btn{letter-spacing:.02em}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.tag{background:transparent;border-radius:0;border-left:2px solid var(--acc);padding:1px 0 1px 8px;color:var(--mute)}
+.side{background:var(--panel)}
+nav button{border-radius:0}
+nav button[aria-selected="true"]{background:linear-gradient(90deg,var(--accsoft),transparent);box-shadow:inset 3px 0 0 var(--acc);color:var(--ink);font-weight:600}
+.pill{background:transparent;border:1px solid var(--line)}
+.bar,.bar i{border-radius:0}.bar{height:6px}.dps .bar{height:10px}
+.sheet{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,1fr);gap:28px}
+.paper{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;gap:14px;align-items:start}
+.col{display:grid;gap:10px}
+.fig{position:relative;min-height:430px;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 40%,var(--accsoft),transparent 68%);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.fig svg,.fig img{width:100%;max-width:240px;max-height:340px;object-fit:contain;margin-bottom:40px}
+.plate{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:10px 6px 12px;border-top:1px solid var(--line);background:var(--panel)}
+.plate strong{font:700 24px "Barlow Condensed",sans-serif}.plate small{color:var(--mute)}
+.it{position:relative;width:64px;height:64px;background:var(--soft);box-shadow:inset 0 0 0 1px var(--rar,var(--line));display:grid;place-items:center}
+.it img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.it .ph{font:700 22px "Barlow Condensed",sans-serif;color:var(--mute)}
+.it .pl{position:absolute;right:3px;bottom:1px;font-size:12px;font-weight:700;color:var(--acc);text-shadow:0 0 4px var(--panel)}
+.stats .head{display:flex;gap:28px;margin-bottom:4px}
+.stats .head b{display:block;font:700 38px/1 "Barlow Condensed",sans-serif}
+.stats small,.srv{color:var(--mute)}.srv{display:block;margin-bottom:10px}
+.srow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:8px 0;border-top:1px solid var(--line)}
+.srow .bar{grid-column:1/-1;margin:2px 0 0}
+.stats h4{font:700 22px "Barlow Condensed",sans-serif;margin:22px 0 4px}
+@media(max-width:900px){.sheet{grid-template-columns:1fr}}
+@media(max-width:520px){.paper{grid-template-columns:52px 1fr 52px;gap:8px}.it{width:52px;height:52px}}
+
+.it{background:linear-gradient(155deg,color-mix(in srgb,var(--rar,#9AA3AF) 50%,#0A0F16),#0A0F16 80%);box-shadow:inset 0 0 0 1px var(--rar,var(--line)),inset 0 0 0 3px rgba(0,0,0,.35)}
+.it .ph{color:rgba(255,255,255,.55)}
+.fig{align-self:stretch}
+.pet.near{box-shadow:inset 3px 0 0 var(--acc);padding-left:12px}
+body.ov{background:transparent}body.ov .side,body.ov .top,body.ov h2,body.ov .sub{display:none}
+body.ov .shell{display:block}body.ov .stage{padding:8px;max-width:none}body.ov .grid2{grid-template-columns:1fr}
+body.ov .panel{background:color-mix(in srgb,var(--panel) 88%,transparent)}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side"><div class="brand"><b>gbk</b></div>
+<nav role="tablist" aria-label="Ferramentas">
+<button role="tab" data-tab="perfil" data-tool="perfil" aria-selected="true">Personagem</button>
+<button role="tab" data-tab="dps" data-tool="dps" aria-selected="false">DPS meter</button>
+<button role="tab" data-tab="petmap" data-tool="pets" aria-selected="false">Mapa dos pets</button>
+<button role="tab" data-tab="mapa" data-tool="cubos" data-preset="cubos" aria-selected="false">Mapa dos cubos</button>
+<button role="tab" data-tab="avisos" data-tool="avisos" aria-selected="false">Avisos</button>
+<button role="tab" data-tab="ferramentas" aria-selected="false">Ferramentas</button>
+<button role="tab" data-tab="captura" aria-selected="false">Captura de teste</button>
+</nav>
+<div class="me"><span class="av" id="chipAv"></span><span><strong id="chipName"></strong><br><small id="chipSub"></small></span></div>
+</aside>
+<main class="stage">
+<div class="top"><span class="pill" id="cap"><i></i>Modo demonstração</span></div>
+<section id="ferramentas" hidden>
+  <h2>Ferramentas</h2>
+  <p class="sub">Escolha o que aparece no menu. A escolha fica salva neste navegador.</p>
+  <div class="panel" id="tools"></div>
+</section>
+<section id="perfil">
+  <h2>Personagem<span class="tag" id="src"></span></h2>
+  <p class="sub">O navegador não lê o jogo. No app desktop, o coletor preenche estes campos sozinho. Aqui, edite à mão ou cole os dados em JSON.</p>
+  <div class="panel" id="prof"></div>
+  <div class="panel" style="margin-top:16px">
+    <div class="row">
+      <label>Nome <input id="pName" maxlength="24"></label>
+      <label>Servidor <input id="pServer" maxlength="24"></label>
+      <label>Raça <select id="pRace"><option value="e">Elyos</option><option value="a">Asmodian</option></select></label>
+      <button class="btn" id="pApply">Aplicar</button>
+    </div>
+    <p class="sub" style="margin:14px 0 6px">Importar dados completos: nível, equipamentos e progresso dos mascotes</p>
+    <textarea id="pJson" aria-label="JSON do personagem" placeholder='{"name":"...","server":"...","race":"e"}'></textarea>
+    <div class="row" style="margin-top:8px"><button class="btn" id="pImport">Importar</button><button class="btn ghost" id="pSample">Ver formato de exemplo</button></div>
+  </div>
+</section>
+<section id="avisos" hidden>
+  <h2>Avisos de eventos<span class="tag">Shugo Fest de hora em hora</span></h2>
+  <p class="sub">Ative os eventos, edite os horários (HH:MM separados por vírgula, ou *:00 para toda hora) e escolha com quanta antecedência quer ser avisado. Mantenha esta aba aberta para receber os alertas.</p>
+  <div class="panel">
+    <div class="next" id="next">–<small id="nextSub"></small></div>
+    <div class="row" style="margin-bottom:8px">
+      <label>Avisar <select id="lead"><option value="0">na hora</option><option value="2">2 min antes</option><option value="5">5 min antes</option><option value="10">10 min antes</option><option value="15">15 min antes</option></select></label>
+      <button class="btn" id="perm">Ativar notificações</button>
+      <button class="btn ghost" id="test">Testar alerta</button>
+    </div>
+    <div id="events"></div>
+  </div>
+</section>
+<section id="mapa" hidden>
+  <h2>Mapa interativo<span class="tag">mapa e posições de exemplo</span></h2>
+  <p class="sub">Clique em um ponto para marcar como feito. Escolha um mascote para destacar os monstros que você precisa matar.</p>
+  <div class="grid2">
+    <div>
+      <svg class="map" id="svg" viewBox="0 0 800 480" role="img" aria-label="Mapa de exemplo com monstros e cubos misteriosos">
+        <path d="M0 330 C140 290 220 380 380 340 S640 260 800 300 V480 H0Z" fill="var(--line)" opacity=".5"/>
+        <path d="M120 0 C150 120 90 200 200 300 S300 420 280 480" fill="none" stroke="var(--acc2)" stroke-width="14" opacity=".25"/>
+        <g id="pts"></g>
+      </svg>
+      <div class="legend"><span><i class="dot"></i>Monstro</span><span><i class="dot cube"></i>Cubo misterioso</span><span id="count"></span></div>
+    </div>
+    <div class="panel">
+      <div class="row" style="flex-direction:column;align-items:stretch">
+        <label><input type="checkbox" id="fMob" checked> Mostrar monstros</label>
+        <label><input type="checkbox" id="fCube" checked> Mostrar cubos</label>
+        <label>Raça do personagem <select id="race"><option value="e">Elyos</option><option value="a">Asmodian</option></select></label>
+        <small class="sub" style="margin:0">No app, raça, servidor e posição virão do personagem logado. Aqui você escolhe a raça à mão.</small>
+        <label>Destacar mascote <select id="fPet"></select></label>
+        <button class="btn ghost" id="resetMap">Limpar marcações</button>
+        <strong>Minimapa</strong>
+        <svg class="map" id="mini" viewBox="0 0 200 120" role="img" aria-label="Minimapa com sua posição"></svg>
+        <small id="miniInfo" class="sub" style="margin:0"></small>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="petmap" hidden>
+  <h2>Mapa dos pets<span class="tag">posição simulada</span></h2>
+  <p class="sub">Minimapa em volta do seu personagem, com os monstros dos mascotes e o progresso de cada um. No jogo, abre como overlay sobre a tela.</p>
+  <div class="grid2">
+    <div class="panel"><svg class="map" id="pmap" viewBox="0 0 300 300" role="img" aria-label="Minimapa dos mascotes ao redor do personagem"><path d="M0 330 C140 290 220 380 380 340 S640 260 800 300 V480 H0Z" fill="var(--line)" opacity=".5"/><path d="M120 0 C150 120 90 200 200 300 S300 420 280 480" fill="none" stroke="var(--acc2)" stroke-width="14" opacity=".25"/><g id="pmapg"></g></svg></div>
+    <div class="panel"><div id="plist"></div><div class="row" style="margin-top:12px"><button class="btn" id="pOverlay">Abrir como overlay</button><button class="btn ghost" id="pSim">Simular morte</button></div><p class="sub" style="margin:12px 0 0">O progresso será lido do jogo automaticamente. O botão de simulação é só para teste.</p></div>
+  </div>
+</section>
+<section id="dps" hidden>
+  <h2>Medidor de DPS<span class="tag">simulação</span></h2>
+  <p class="sub">Esta tela mostra só a interface com números aleatórios. A leitura real do jogo exige o app desktop e depende de uma fonte de dados que ainda precisamos avaliar.</p>
+  <div class="panel">
+    <div class="row" style="margin-bottom:10px">
+      <button class="btn" id="dpsGo">Iniciar simulação</button>
+      <button class="btn ghost" id="dpsReset">Zerar</button>
+      <strong id="dpsTotal"></strong>
+    </div>
+    <div class="boss" id="boss"></div><div id="dpsRows"></div><div class="row" id="buffs" style="margin-top:10px"></div><div id="skills"></div>
+  </div>
+</section>
+<section id="captura" hidden>
+  <h2>Captura de teste<span class="tag">para desenvolvimento</span></h2>
+  <p class="sub">Grava só o tráfego do processo do jogo em um arquivo, para o gbk aprender o formato dos dados. Funciona no app desktop, aberto como administrador.</p>
+  <div class="panel">
+    <div class="row">
+      <label>Processo do jogo <select id="cProc"></select></label>
+      <label>Placa de rede <select id="cDev"><option value="">Automática</option></select></label>
+      <button class="btn ghost" id="cRefresh">Atualizar lista</button>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="cGo">Iniciar gravação</button><span class="chip" id="cStat">parado</span></div>
+    <p class="sub" id="cPath" style="margin:12px 0 0"></p>
+  </div>
+  <div class="panel" style="margin-top:16px"><strong>Roteiro da gravação (cerca de 3 minutos)</strong>
+    <ol style="margin:10px 0 0;padding-left:22px;line-height:1.8">
+      <li>Abra o jogo, faça o login e pare na seleção de personagem.</li>
+      <li>Escolha o processo do jogo na lista acima e clique em Iniciar gravação.</li>
+      <li>Entre no mundo com o personagem.</li>
+      <li>Lute uns 30 segundos contra monstros comuns.</li>
+      <li>Mate alguns monstros de mascote e abra a janela de mascotes.</li>
+      <li>Abra a bolsa de equipamentos e o painel do personagem.</li>
+      <li>Troque de mapa uma vez e clique em Parar gravação.</li>
+    </ol>
+    <p class="sub" style="margin:12px 0 0">Evite conversar em chat privado durante a gravação. O arquivo fica em Documentos, com o nome gbk-captura-e-um-número.pcap.</p>
+  </div>
+</section>
+</main>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s);
+const load=(k,d)=>{try{const v=localStorage.getItem('gbk:'+k);return v===null?d:JSON.parse(v)}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem('gbk:'+k,JSON.stringify(v))}catch(e){}};
+const pad=n=>String(n).padStart(2,'0');
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',5000)}
+function beep(){try{const c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.6);o.start();o.stop(c.currentTime+.6)}catch(e){}}
+function alertUser(t){toast(t);beep();try{if('Notification' in window&&Notification.permission==='granted')new Notification('gbk',{body:t})}catch(e){}}
+
+/* abas */
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('main section').forEach(s=>s.hidden=s.id!==b.dataset.tab);
+  if(b.dataset.preset)preset(b.dataset.preset);
+  if(b.dataset.tab==='perfil')drawProfile();
+  if(b.dataset.tab==='petmap')drawPets();
+});
+
+/* avisos */
+let evs=load('events2',[
+  {id:'shugo',name:'Shugo Fest',times:'*:00',on:true},
+  {id:'reset',name:'Reset diário',times:'05:00',on:true},
+  {id:'cubo',name:'Cubos misteriosos renovam',times:'18:00',on:false}
+]);
+let lead=load('lead','5');
+$('#lead').value=lead;
+$('#lead').onchange=e=>{lead=e.target.value;save('lead',lead)};
+const parseTimes=s=>s.split(',').flatMap(x=>{x=x.trim();const w=x.match(/^\*:(\d{2})$/);if(w)return Array.from({length:24},(_,h)=>[h,+w[1]]);const m=x.match(/^(\d{1,2}):(\d{2})$/);return m?[[+m[1],+m[2]]]:[]}).filter(([h,m])=>h<24&&m<60);
+function drawEvents(){
+  $('#events').innerHTML=evs.map((e,i)=>`<div class="ev"><input type="checkbox" data-i="${i}" ${e.on?'checked':''} aria-label="Ativar ${e.name}"><strong>${e.name}</strong><input type="text" data-t="${i}" value="${e.times}" aria-label="Horários de ${e.name}"></div>`).join('');
+}
+$('#events').onchange=e=>{
+  const t=e.target;
+  if(t.dataset.i!==undefined)evs[+t.dataset.i].on=t.checked;
+  if(t.dataset.t!==undefined)evs[+t.dataset.t].times=t.value;
+  save('events2',evs);
+};
+$('#perm').onclick=async()=>{
+  if(!('Notification' in window))return toast('Este navegador não suporta notificações. O app desktop vai usar as do Windows.');
+  const r=await Notification.requestPermission();toast(r==='granted'?'Notificações ativadas.':'Permissão negada. Os alertas aparecem só dentro da página.');
+};
+$('#test').onclick=()=>alertUser('Alerta de teste: Shugo Fest começa em 5 minutos.');
+const fired=new Set();
+function tick(){
+  const now=new Date();let best=null;
+  evs.filter(e=>e.on).forEach(e=>parseTimes(e.times).forEach(([h,m])=>{
+    const t=new Date(now);t.setHours(h,m,0,0);if(t<=now)t.setDate(t.getDate()+1);
+    if(!best||t<best.t)best={t,name:e.name};
+    const fire=new Date(t);fire.setMinutes(fire.getMinutes()-lead);
+    const dayAgo=new Date(fire);dayAgo.setDate(dayAgo.getDate()-1);
+    [fire,dayAgo].forEach(f=>{const d=now-f,k=e.id+f.getTime();
+      if(d>=0&&d<30000&&!fired.has(k)){fired.add(k);alertUser(lead=='0'?`${e.name} começou.`:`${e.name} começa em ${lead} min.`)}});
+  }));
+  if(best){const s=Math.floor((best.t-now)/1000);
+    $('#next').firstChild.nodeValue=`${pad(Math.floor(s/3600))}:${pad(Math.floor(s%3600/60))}:${pad(s%60)}`;
+    $('#nextSub').textContent=`até ${best.name}`;}
+  else{$('#next').firstChild.nodeValue='Sem avisos ativos';$('#nextSub').textContent='Ative um evento abaixo.'}
+}
+drawEvents();tick();setInterval(tick,1000);
+
+/* mascotes */
+const pets=[
+  {id:'a',name:'Mascote exemplo 1',mob:'Monstro A',need:30,color:'#1F8A7D'},
+  {id:'b',name:'Mascote exemplo 2',mob:'Monstro B',need:50,color:'#1F8A7D'},
+  {id:'c',name:'Mascote exemplo 3',mob:'Monstro C',need:80,color:'#1F8A7D'},
+  {id:'d',name:'Mascote exemplo 4',mob:'Monstro D',need:120,color:'#1F8A7D'}
+];
+let kills=load('kills',{});
+function nearestPet(){let b=null,d=1e9;pts.forEach(p=>{if(p.t!=='mob')return;const x=Math.hypot(p.x-me.x,p.y-me.y);if(x<d){d=x;b=p}});return b}
+function drawPets(){
+  const near=nearestPet();
+  $('#plist').innerHTML=pets.map(p=>{const k=kills[p.id]||0,ok=k>=p.need;return `<div class="pet${near&&near.pet===p.id?' near':''}"><div class="row"><strong>${p.name}</strong><small>${p.mob}</small></div><div class="bar"><i class="${ok?'max':''}" style="width:${Math.min(100,k/p.need*100)}%"></i></div><small>${ok?'Nível 3 alcançado':`${k} de ${p.need} mortes`}</small></div>`}).join('');
+  drawPetMap();
+}
+function drawPetMap(){
+  const R=150,C=2*Math.PI*15;
+  $('#pmap').setAttribute('viewBox',`${me.x-R} ${me.y-R} ${2*R} ${2*R}`);
+  $('#pmapg').innerHTML=pts.filter(p=>Math.hypot(p.x-me.x,p.y-me.y)<R*1.5).map(p=>{
+    if(p.t==='cube')return `<rect x="${p.x-6}" y="${p.y-6}" width="12" height="12" fill="var(--acc)" fill-opacity=".5" stroke="var(--acc)" stroke-dasharray="3 2" transform="rotate(45 ${p.x} ${p.y})"/>`;
+    const q=pets.find(x=>x.id===p.pet),k=kills[q.id]||0,f=Math.min(1,k/q.need);
+    return `<g><circle cx="${p.x}" cy="${p.y}" r="8" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/><circle cx="${p.x}" cy="${p.y}" r="15" fill="none" stroke="var(--soft)" stroke-width="4"/><circle cx="${p.x}" cy="${p.y}" r="15" fill="none" stroke="${f>=1?'var(--acc)':'var(--acc2)'}" stroke-width="4" stroke-dasharray="${C*f} ${C}" transform="rotate(-90 ${p.x} ${p.y})"/><text x="${p.x}" y="${p.y+28}" text-anchor="middle" font-size="10" fill="var(--ink)">${q.mob} ${k}/${q.need}</text></g>`}).join('')
+  +`<circle cx="${me.x}" cy="${me.y}" r="${R*.9}" fill="none" stroke="var(--line)" stroke-dasharray="4 6"/><circle cx="${me.x}" cy="${me.y}" r="7" fill="var(--ink)" stroke="var(--acc)" stroke-width="3"/>`;
+}
+$('#fPet').innerHTML='<option value="">Nenhum</option>'+pets.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+
+/* mapa */
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const pts=[];
+function gen(r){seed=r==='a'?19:7;pts.length=0;
+ pets.forEach(p=>{const cx=120+rnd()*560,cy=70+rnd()*300;for(let i=0;i<4;i++)pts.push({id:r+p.id+i,t:'mob',pet:p.id,n:p.mob,x:cx+(rnd()-.5)*140,y:cy+(rnd()-.5)*100})});
+ for(let i=0;i<6;i++)pts.push({id:r+'c'+i,t:'cube',n:'Possível local de cubo misterioso',x:60+rnd()*680,y:40+rnd()*400});}
+gen('e');
+let done=load('done',{});
+function drawMap(){
+  const fm=$('#fMob').checked,fc=$('#fCube').checked,fp=$('#fPet').value;
+  let vis=0,fin=0;
+  $('#pts').innerHTML=pts.filter(p=>p.t==='mob'?fm:fc).map(p=>{
+    const d=done[p.id],dim=fp&&p.pet!==fp;vis++;if(d)fin++;
+    const cls=`m${d?' done':''}${dim?' dim':''}`;
+    const sh=p.t==='mob'?`<circle cx="${p.x}" cy="${p.y}" r="9" fill="var(--acc2)"/>`:`<rect x="${p.x-8}" y="${p.y-8}" width="16" height="16" fill="var(--acc)" fill-opacity=".55" stroke="var(--acc)" stroke-dasharray="3 2" transform="rotate(45 ${p.x} ${p.y})"/>`;
+    return `<g class="${cls}" data-id="${p.id}"><title>${p.n}</title>${sh}</g>`}).join('');
+  $('#count').textContent=`${fin} de ${vis} marcados`;
+}
+$('#pts').onclick=e=>{const g=e.target.closest('g[data-id]');if(!g)return;done[g.dataset.id]=!done[g.dataset.id];save('done',done);drawMap()};
+['#fMob','#fCube','#fPet'].forEach(s=>$(s).onchange=drawMap);
+$('#race').onchange=e=>{gen(e.target.value);drawMap();drawMini()};
+let me={x:400,y:240};
+function drawMini(){
+ const k=.25;let near=null,nd=1e9;
+ pts.forEach(p=>{if(p.t!=='mob')return;const d=Math.hypot(p.x-me.x,p.y-me.y);if(d<nd){nd=d;near=p}});
+ $('#mini').innerHTML=pts.map(p=>p.t==='mob'?`<circle cx="${p.x*k}" cy="${p.y*k}" r="3" fill="var(--acc2)" opacity="${done[p.id]?0.25:1}"/>`:`<rect x="${p.x*k-2.5}" y="${p.y*k-2.5}" width="5" height="5" fill="var(--acc)" opacity=".6"/>`).join('')+`<circle cx="${me.x*k}" cy="${me.y*k}" r="5" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="${me.x*k}" cy="${me.y*k}" r="2" fill="var(--ink)"/>`;
+ const p=near&&pets.find(x=>x.id===near.pet),kk=p?kills[p.id]||0:0;
+ $('#miniInfo').textContent=p?`Perto de ${p.mob}: ${kk} de ${p.need} mortes para o nível 3. (posição simulada)`:'';
+}
+setInterval(()=>{me.x=Math.min(780,Math.max(20,me.x+(Math.random()-.5)*80));me.y=Math.min(460,Math.max(20,me.y+(Math.random()-.5)*60));drawMini();drawPets()},2000);
+$('#resetMap').onclick=()=>{done={};save('done',done);drawMap()};
+
+/* dps simulado */
+const SK=[['Golpe básico',.35],['Habilidade A',.25],['Habilidade B',.25],['Habilidade C',.15]];
+const pl=[['Você',920,'Gladiador'],['Arqueiro',840,'Arqueiro'],['Mago',1010,'Mago'],['Clérigo',260,'Clérigo'],['Gladiador',700,'Gladiador']].map(([n,b,c])=>({n,b,c,dmg:0,sk:SK.map(()=>0)}));
+const BOSS=3e5,bf=[{n:'Fortalecer',d:20},{n:'Fúria',d:12},{n:'Escudo',d:8}].map(x=>({...x,t:x.d}));
+let selP=null;
+function renderRows(el,tot,mx){
+  $('#dpsRows').innerHTML=[...pl].sort((a,b)=>b.dmg-a.dmg).map(p=>`<button class="dps" data-n="${p.n}"><span>${p.n}<br><small>${p.c}</small></span><div class="bar"><i style="width:${p.dmg/mx*100}%"></i></div><span>${t0?Math.round(p.dmg/el).toLocaleString('pt-BR'):0}</span><span>${Math.round(p.dmg).toLocaleString('pt-BR')}</span><span>${tot?Math.round(p.dmg/tot*100):0}%</span></button>`).join('');
+  const hp=Math.max(0,BOSS-tot);
+  $('#boss').innerHTML=`<strong>Chefe de exemplo</strong> <small>${Math.round(hp/BOSS*100)}% de vida</small><div class="bar"><i style="width:${hp/BOSS*100}%"></i></div>`;
+  $('#buffs').innerHTML=bf.map(b=>`<span class="chip">${b.n} <b>${Math.ceil(b.t)}s</b></span>`).join('');
+  const s=pl.find(p=>p.n===selP);
+  $('#skills').innerHTML=s?`<div class="sk"><strong>${s.n}, dano por habilidade</strong>${SK.map((k,i)=>`<div class="dps" style="cursor:default;grid-template-columns:130px 1fr 80px"><span>${k[0]}</span><div class="bar"><i style="width:${s.dmg?s.sk[i]/s.dmg*100:0}%"></i></div><span>${Math.round(s.sk[i]).toLocaleString('pt-BR')}</span></div>`).join('')}</div>`:'<small class="sub">Clique em um jogador para ver o dano por habilidade.</small>';
+}
+$('#dpsRows').onclick=e=>{const b=e.target.closest('button[data-n]');if(b){selP=selP===b.dataset.n?null:b.dataset.n;drawDps()}};
+let t0=0,timer=null;
+function drawDps(){
+  const el=Math.max(1,(Date.now()-t0)/1000),tot=pl.reduce((a,p)=>a+p.dmg,0),mx=Math.max(1,...pl.map(p=>p.dmg));
+  $('#dpsTotal').textContent=t0?`Total ${Math.round(tot/el).toLocaleString('pt-BR')} DPS`:'';
+  renderRows(el,tot,mx);
+}
+$('#dpsGo').onclick=()=>{
+  if(timer){clearInterval(timer);timer=null;$('#dpsGo').textContent='Iniciar simulação';return}
+  if(!t0)t0=Date.now();$('#dpsGo').textContent='Pausar';
+  timer=setInterval(()=>{pl.forEach(p=>{const d=p.b*(.5+Math.random())*.5;p.dmg+=d;SK.forEach((k,i)=>{p.sk[i]+=d*k[1]})});bf.forEach(b=>{b.t-=.5;if(b.t<=0)b.t=b.d});drawDps();if(pl.reduce((a,p)=>a+p.dmg,0)>=BOSS){clearInterval(timer);timer=null;$('#dpsGo').textContent='Iniciar simulação';toast('Chefe derrotado.')}},500);
+};
+$('#dpsReset').onclick=()=>{pl.forEach(p=>{p.dmg=0;p.sk=SK.map(()=>0)});t0=0;selP=null;drawDps()};
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TOOLS=[['perfil','Personagem','Barra com avatar, equipamentos e atributos'],['avisos','Avisos','Shugo Fest e outros eventos'],['pets','Mapa dos pets','Minimapa em volta do personagem com o progresso de cada mascote'],['cubos','Mapa dos cubos','Possíveis locais de cubo misterioso'],['dps','DPS meter','Dano do grupo, vida do chefe e buffs']];
+let on=load('tools',{perfil:1,avisos:1,pets:1,cubos:1,mascotes:1,dps:1});
+function applyTools(){
+  $('#tools').innerHTML=TOOLS.map(([k,n,d])=>`<label class="tool"><input type="checkbox" data-k="${k}" ${on[k]?'checked':''}><span><strong>${n}</strong><br><small>${d}</small></span></label>`).join('');
+  document.querySelectorAll('nav [data-tool]').forEach(b=>{b.hidden=!on[b.dataset.tool]});
+}
+$('#tools').onchange=e=>{on[e.target.dataset.k]=e.target.checked?1:0;save('tools',on);applyTools()};
+function preset(m){$('#fMob').checked=m==='pets';$('#fCube').checked=m==='cubos';drawMap()}
+const demo={name:'Gbk',server:'Servidor 1',race:'e',level:55,cls:'Gladiador',power:48210,ilvl:312,
+  equip:[['Arma','Espada de exemplo',12],['Elmo','Elmo de exemplo',10],['Peitoral','Peitoral de exemplo',10],['Luvas','Luvas de exemplo',9],['Calça','Calça de exemplo',9],['Botas','Botas de exemplo',9],['Capa','Capa de exemplo',8],['Asas','Asas de exemplo',5],['Colar','Colar de exemplo',7],['Anel 1','Anel de exemplo',6],['Anel 2','Anel de exemplo',6],['Brinco','Brinco de exemplo',6]],
+  stats:[['Ataque',3120],['Defesa',2480],['Vida',18400],['Crítico',812],['Precisão',905],['Evasão',640]]};
+let profile=load('profile',demo);
+const GR=[['Comum','#9AA3AF'],['Raro','#5DBB63'],['Épico','#4C8DFF'],['Único','#E8C440'],['Herói','#F08A2B'],['Especial','#E0524D']];
+function drawProfile(){
+  const p=profile,r=p.race==='a'?'Asmodian':'Elyos';
+  const L=['Arma','Elmo','Ombreiras','Peitoral','Luvas','Calça','Botas','Capa'],R=['Colar','Brinco 1','Brinco 2','Anel 1','Anel 2','Bracelete 1','Bracelete 2','Cinto','Amuleto'];
+  const m={};(Array.isArray(p.equip)?p.equip:[]).forEach(e=>{m[e[0]]=e});
+  const it=s=>{const e=m[s];
+    if(!e)return `<div class="it" title="${esc(s)}: vazio"><span class="ph">${esc(s[0])}</span></div>`;
+    const lv=+e[2]||0,g=e[4]??(lv>=15?4:lv>=10?3:lv>=7?2:lv>=5?1:0),c=GR[g][1];
+    return `<div class="it" style="--rar:${c}" title="${esc(s)}: ${esc(e[1])} +${lv} (${GR[g][0]})"><span class="ph">${esc(s[0])}</span>${e[3]?`<img src="${esc(e[3])}" alt="" onerror="this.remove()">`:''}<span class="pl">+${lv}</span></div>`};
+  const fig=p.portrait?`<img src="${esc(p.portrait)}" alt="Personagem" onerror="this.remove()">`:SIL;
+  const st=Array.isArray(p.stats)?p.stats:[],mx=Math.max(1,...st.map(s=>+s[1]||0))*1.15;
+  const pt=pets.map(q=>{const k=kills[q.id]||0;return `<div class="srow"><span>${esc(q.name)}</span><b>${k}/${q.need}</b><div class="bar"><i class="${k>=q.need?'max':''}" style="width:${Math.min(100,k/q.need*100)}%"></i></div></div>`}).join('');
+  $('#src').textContent=p.src==='import'?'dados importados':'dados de exemplo';
+  $('#prof').innerHTML=`<div class="sheet"><div class="paper"><div class="col">${L.map(it).join('')}</div><div class="fig">${fig}<div class="plate"><strong>${esc(p.name)}</strong><br><small>${r}, ${esc(p.cls)}, nível ${esc(p.level)}</small></div></div><div class="col">${R.map(it).join('')}</div></div><div class="stats"><div class="head"><div><b>${Number(p.power).toLocaleString('pt-BR')}</b><small>poder de combate</small></div><div><b>${esc(p.ilvl)}</b><small>nível dos itens</small></div></div><small class="srv">${esc(p.server)}</small>${st.map(([k,v])=>`<div class="srow"><span>${esc(k)}</span><b>${esc(v)}</b><div class="bar"><i style="width:${(+v||0)/mx*100}%"></i></div></div>`).join('')}</div></div>`;
+  $('#pName').value=p.name;$('#pServer').value=p.server;$('#pRace').value=p.race;
+}
+const SIL=`<svg viewBox="0 0 200 300" role="img" aria-label="Silhueta do personagem"><g fill="var(--acc)"><path opacity=".25" d="M100 70C60 30 20 40 8 90c20-10 45-5 62 25zM100 70c40-40 80-30 92 20-20-10-45-5-62 25z"/><circle cx="100" cy="62" r="20" opacity=".9"/><path opacity=".8" d="M62 120c10-18 66-18 76 0l8 90H54z"/><path opacity=".6" d="M72 210h24l-4 80H70zM104 210h24l2 80h-22z"/></g></svg>`;
+function applyProfile(){save('profile',profile);drawProfile();document.documentElement.dataset.race=profile.race;$('#chipName').textContent=profile.name;$('#chipSub').textContent=profile.server;$('#chipAv').textContent=(profile.name||'?')[0].toUpperCase();$('#race').value=profile.race;gen(profile.race);drawMap();drawMini()}
+$('#race').addEventListener('change',e=>{profile.race=e.target.value;applyProfile()});
+$('#pApply').onclick=()=>{profile={...profile,name:$('#pName').value||profile.name,server:$('#pServer').value||profile.server,race:$('#pRace').value};applyProfile();toast('Personagem atualizado.')};
+$('#pImport').onclick=()=>{try{const j=JSON.parse($('#pJson').value);
+  profile={...demo,...j,src:'import'};
+  if(j.pets&&typeof j.pets==='object')Object.entries(j.pets).forEach(([k,v])=>{if(pets.some(p=>p.id===k))kills[k]=Math.max(0,+v||0)});
+  save('kills',kills);drawPets();applyProfile();toast('Dados importados.')}catch(e){toast('JSON inválido. Use "Ver formato de exemplo" como base.')}};
+$('#pSample').onclick=()=>{$('#pJson').value=JSON.stringify({name:'MeuPersonagem',server:'Servidor 3',race:'a',level:60,cls:'Mago',power:51200,ilvl:330,pets:{a:30,b:12},equip:[['Arma','Cajado',14]],stats:[['Ataque',3300]]},null,1)};
+drawPets();drawDps();applyProfile();applyTools();
+
+const T=window.__TAURI__;
+$('#pOverlay').onclick=()=>{if(T)T.core.invoke('toggle_overlay',{label:'petmap'});else toast('O overlay abre só no app desktop.')};
+$('#pSim').onclick=()=>{const n=nearestPet();if(!n)return;kills[n.pet]=(kills[n.pet]||0)+1;save('kills',kills);drawPets()};
+addEventListener('storage',e=>{if(e.key==='gbk:kills'){kills=load('kills',{});drawPets()}});
+
+if(T){
+  const inv=(c,x)=>T.core.invoke(c,x);
+  const fill=async()=>{
+    try{const d=await inv('list_devices');$('#cDev').innerHTML='<option value="">Automática</option>'+d.map(x=>`<option value="${esc(x.name)}">${esc(x.desc||x.name)}</option>`).join('')}catch(e){toast('Npcap não encontrado: '+e)}
+    try{const c=await inv('list_connections');const nm=[...new Set(c.map(x=>x.name))];$('#cProc').innerHTML=nm.map(n=>`<option>${esc(n)}</option>`).join('')}catch(e){toast(String(e))}
+  };
+  $('#cRefresh').onclick=fill;fill();
+  let rec=false;
+  T.event.listen('capture-stats',e=>{$('#cStat').textContent=`${e.payload.packets} pacotes, ${Math.round(e.payload.bytes/1024)} KB`});
+  $('#cGo').onclick=async()=>{
+    if(!rec){try{const p=await inv('start_record',{process:$('#cProc').value,device:$('#cDev').value||null});rec=true;$('#cGo').textContent='Parar gravação';$('#cPath').textContent='Gravando em: '+p}catch(e){toast(String(e))}}
+    else{await inv('stop_record');rec=false;$('#cGo').textContent='Iniciar gravação';$('#cPath').textContent+=' (finalizado)'}
+  };
+}else{$('#cGo').disabled=true;$('#cStat').textContent='disponível só no app desktop'}
+if(location.hash==='#overlay-pets'){document.body.classList.add('ov');document.querySelectorAll('main section').forEach(s=>s.hidden=s.id!=='petmap');drawPets()}
+if(T){const pill=$('#cap');const poll=async()=>{let ok=0;try{const s=await T.core.invoke('find_game_server',{process:'AION'});ok=s.length?1:0}catch(e){}pill.lastChild.nodeValue=ok?'Jogo detectado':'Aguardando o jogo';pill.dataset.on=ok};poll();setInterval(poll,5000)}
+</script>
+</body>
+</html>

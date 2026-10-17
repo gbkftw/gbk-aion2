@@ -1,0 +1,57 @@
+{
+  "productName": "gbk",
+  "version": "0.1.0",
+  "identifier": "app.gbk.companion",
+  "build": {
+    "frontendDist": "../src"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "gbk",
+        "url": "index.html",
+        "width": 1120,
+        "height": 780,
+        "minWidth": 380
+      },
+      {
+        "label": "overlay",
+        "title": "gbk overlay",
+        "url": "overlay.html",
+        "width": 360,
+        "height": 240,
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "visible": false
+      },
+      {
+        "label": "petmap",
+        "title": "gbk pets",
+        "url": "index.html#overlay-pets",
+        "width": 380,
+        "height": 560,
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.ico"
+    ]
+  }
+}
