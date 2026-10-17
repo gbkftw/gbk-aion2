@@ -15,6 +15,15 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+      - name: Baixar o SDK do Npcap
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://npcap.com/dist/npcap-sdk-1.13.zip -OutFile sdk.zip -UserAgent "Mozilla/5.0"
+          Expand-Archive sdk.zip -DestinationPath "$env:RUNNER_TEMP\npcap-sdk"
+          $lib = "$env:RUNNER_TEMP\npcap-sdk\Lib\x64"
+          if (!(Test-Path "$lib\wpcap.lib")) { throw "wpcap.lib nao encontrado em $lib" }
+          "LIB=$lib;$env:LIB" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "LIBPCAP_LIBDIR=$lib" | Out-File -FilePath $env:GITHUB_ENV -Append
       - run: npm install
       - run: npm run build
       - uses: actions/upload-artifact@v4
